@@ -4,7 +4,23 @@
 // eslint-disable-next-line no-unused-vars
 
 const Item = (function() {
-  const foo = 'bar';
-  return {};
 
-}());
+  const validateName = function(name) {
+    if (!name) throw new TypeError ('Name does not exist');
+  };
+  
+  const create = function(name) {
+    
+    return {
+      id: cuid(),
+      name, 
+      checked: false
+    };
+  };
+
+  return {
+    validateName,
+    create
+  };
+
+}());  
