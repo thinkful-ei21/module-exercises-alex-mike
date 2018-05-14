@@ -30,8 +30,28 @@ const store = (function () {
     }
   };
 
+  const findAndToggleChecked = function (id) {
+    this.findById(id).checked = !this.findById(id).checked;
+  }
+
+  const findAndUpdateName = function (id, newName){
+    try {
+      Item.validateName(newName);
+      this.findById(id).name = newName;
+    }
+    catch (error) {
+      console.log('Cannot update name: ' + err.message);
+    }
+  }
+
+  const findAndDelete = function (id) {
+    this.items = this.items.filter((itm => itm.id !== id));
+  }
+
   return    {
-    items, hideCheckedItems, searchTerm, addItem, findById
+    items, hideCheckedItems, searchTerm, addItem, 
+    findById, findAndToggleChecked, findAndUpdateName,
+    findAndDelete
   };
 
 }() );
