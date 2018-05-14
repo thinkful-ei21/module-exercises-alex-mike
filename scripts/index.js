@@ -1,5 +1,6 @@
 /* global shoppingList, cuid */
-
+'use strict';
+/* eslint-env jquery */
 // eslint-disable-next-line no-unused-vars
 /*const store = {
   items: [
@@ -12,9 +13,7 @@
   searchTerm: ''
 };*/
 
-$(document).ready(function() {
+$(function() {
   shoppingList.bindEventListeners();
   shoppingList.render();
-  console.log(store);
-  console.log(foo);
 });
