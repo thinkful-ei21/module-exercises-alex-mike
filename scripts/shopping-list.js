@@ -1,5 +1,6 @@
 /* global store, Item cuid */
 'use strict';
+/* eslint-env jquery */
 // eslint-disable-next-line no-unused-vars
 const shoppingList = (function(){
 
@@ -55,15 +56,6 @@ const shoppingList = (function(){
   }
   
   
-  // function addItemToShoppingList(itemName) {
-  //   try {
-  //     Item.validateName(itemName);
-  //     store.items.push(Item.create(itemName));
-  //     render();
-  //   }
-  //   catch (error){console.log('Cannot add item' + error.message)}
-  // }
-  
   function handleNewItemSubmit() {
     $('#js-shopping-list-form').submit(function (event) {
       event.preventDefault();
@@ -74,11 +66,6 @@ const shoppingList = (function(){
     });
   }
   
-  //function toggleCheckedForListItem(id) {
-  //  const foundItem = store.items.find(item => item.id === id);
-   // foundItem.checked = !foundItem.checked;
-  //}
-  
   
   function getItemIdFromElement(item) {
     return $(item)
@@ -86,73 +73,64 @@ const shoppingList = (function(){
       .data('item-id');
   }
   
+
   function handleItemCheckClicked() {
     $('.js-shopping-list').on('click', '.js-item-toggle', event => {
       const id = getItemIdFromElement(event.currentTarget);
       store.findAndToggleChecked(id);
-      //toggleCheckedForListItem(id);
       render();
     });
   }
   
-  function deleteListItem(id) {
-    const index = store.items.findIndex(item => item.id === id);
-    store.items.splice(index, 1);
-  }
   
   function editListItemName(id, itemName) {
     const item = store.items.find(item => item.id === id);
     item.name = itemName;
   }
-  
-  function toggleCheckedItemsFilter() {
-    store.hideCheckedItems = !store.hideCheckedItems;
-  }
-  
-  function setSearchTerm(val) {
-    store.searchTerm = val;
-  }
-  
-  
+
+
   function handleDeleteItemClicked() {
     // like in `handleItemCheckClicked`, we use event delegation
     $('.js-shopping-list').on('click', '.js-item-delete', event => {
       // get the index of the item in store.items
       const id = getItemIdFromElement(event.currentTarget);
       // delete the item
-      //deleteListItem(id);
       store.findAndDelete(id);
       // render the updated shopping list
       render();
     });
   }
   
+
   function handleEditShoppingItemSubmit() {
     $('.js-shopping-list').on('submit', '.js-edit-item', event => {
       event.preventDefault();
       const id = getItemIdFromElement(event.currentTarget);
       const itemName = $(event.currentTarget).find('.shopping-item').val();
+      console.log('ID: ' + id + ', itemName: ' + itemName);
       store.findAndUpdateName(id, itemName);
-      //editListItemName(id, itemName);
       render();
     });
   }
   
+
   function handleToggleFilterClick() {
     $('.js-filter-checked').click(() => {
-      toggleCheckedItemsFilter();
+      store.toggleCheckedFilter();
       render();
     });
   }
   
+
   function handleShoppingListSearch() {
     $('.js-shopping-list-search-entry').on('keyup', event => {
       const val = $(event.currentTarget).val();
-      setSearchTerm(val);
+      store.setSearchTerm(val);
       render();
     });
   }
   
+
   function bindEventListeners() {
     handleNewItemSubmit();
     handleItemCheckClicked();
@@ -161,6 +139,7 @@ const shoppingList = (function(){
     handleToggleFilterClick();
     handleShoppingListSearch();
   }
+
 
   // This object contains the only exposed methods from this module:
   return {

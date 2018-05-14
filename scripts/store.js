@@ -5,7 +5,6 @@
 
 const store = (function () {
   
-
   const items = [
     { id: cuid(), name: 'apples', checked: false },
     { id: cuid(), name: 'oranges', checked: false },
@@ -32,7 +31,7 @@ const store = (function () {
 
   const findAndToggleChecked = function (id) {
     this.findById(id).checked = !this.findById(id).checked;
-  }
+  };
 
   const findAndUpdateName = function (id, newName){
     try {
@@ -40,18 +39,26 @@ const store = (function () {
       this.findById(id).name = newName;
     }
     catch (error) {
-      console.log('Cannot update name: ' + err.message);
+      console.log('Cannot update name: ' + error.message);
     }
-  }
+  };
 
   const findAndDelete = function (id) {
     this.items = this.items.filter((itm => itm.id !== id));
-  }
+  };
+
+  const toggleCheckedFilter = function() {
+    this.hideCheckedItems = !this.hideCheckedItems;
+  };
+
+  const setSearchTerm = function(arg) {
+    this.searchTerm = arg;
+  };
 
   return    {
     items, hideCheckedItems, searchTerm, addItem, 
     findById, findAndToggleChecked, findAndUpdateName,
-    findAndDelete
+    findAndDelete, toggleCheckedFilter, setSearchTerm
   };
 
 }() );
